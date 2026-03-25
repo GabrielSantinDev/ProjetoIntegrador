@@ -14,17 +14,17 @@ import lombok.Setter;
 @Table(name = "tb_avaliacao")
 public class Avaliacao  extends GenericModel {
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
-    @JoinColumn(name = "descricao")
+    @Column(name = "descricao")
     private String descricao;
 
-    @JoinColumn(name = "valor")
+    @Column(name = "valor")
     private Double valor;
 }

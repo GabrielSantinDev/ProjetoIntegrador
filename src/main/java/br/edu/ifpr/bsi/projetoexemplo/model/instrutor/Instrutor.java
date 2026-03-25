@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,7 +16,7 @@ import java.util.List;
 public class Instrutor extends Usuario {
 
     @OneToMany(mappedBy = "instrutor")
-    private List<Curso> cursosCriados;
+    private List<Curso> cursosCriados = new ArrayList<>();;
 
     @Column(name = "especializacao")
     private String especializacao;
@@ -26,7 +27,7 @@ public class Instrutor extends Usuario {
     @Column(name = "avaliacao")
     private Double avaliacao;
 
-    @Column(name = "ganhosTotais")
+    @Column(name = "ganhos_totais")
     private Double ganhosTotais;
 
 }
