@@ -3,3 +3,4 @@ Projeto integrador de Análise e Projeto de Sistemas e Programação de Software
 IDE: IntelliJ IDEA <br>
 Criado classes no Java usando Lombok e anotaçoes do JPA. <br>
 Feito a conexão com o Banco de Dados (Supabase). <br>
+Feito os testes de repository para as classes. <br>
