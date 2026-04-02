@@ -2,6 +2,7 @@ package br.edu.ifpr.bsi.projetoexemplo.model.instrutor;
 
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.Curso;
 import br.edu.ifpr.bsi.projetoexemplo.model.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,8 @@ import java.util.List;
 public class Instrutor extends Usuario {
 
     @OneToMany(mappedBy = "instrutor")
-    private List<Curso> cursosCriados = new ArrayList<>();;
+    @JsonIgnore
+    private List<Curso> cursosCriados = new ArrayList<>();
 
     @Column(name = "especializacao")
     private String especializacao;

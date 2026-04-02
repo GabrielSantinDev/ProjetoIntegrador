@@ -3,6 +3,7 @@ package br.edu.ifpr.bsi.projetoexemplo.model.aluno;
 import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.Avaliacao;
 import br.edu.ifpr.bsi.projetoexemplo.model.matricula.Matricula;
 import br.edu.ifpr.bsi.projetoexemplo.model.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,13 +17,14 @@ import java.util.List;
 @Table(name = "tb_aluno")
 public class Aluno extends Usuario {
 
-    @OneToMany(mappedBy = "aluno")
-    private List<Matricula> matriculas = new ArrayList<>();;
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Matricula> matriculas = new ArrayList<>();
 
     @Column(name = "nivel_prendizado")
     private String nivelAprendizado;
 
-    @OneToMany(mappedBy = "aluno")
-    private List<Avaliacao> avaliacoes = new ArrayList<>();;
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
 
 }

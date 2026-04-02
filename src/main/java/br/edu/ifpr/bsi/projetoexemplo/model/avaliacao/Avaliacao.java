@@ -4,6 +4,7 @@ package br.edu.ifpr.bsi.projetoexemplo.model.avaliacao;
 import br.edu.ifpr.bsi.projetoexemplo.model.GenericModel;
 import br.edu.ifpr.bsi.projetoexemplo.model.aluno.Aluno;
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.Curso;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,10 +17,12 @@ public class Avaliacao  extends GenericModel {
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
+    @JsonIgnore
     private Curso curso;
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")
+    @JsonIgnore
     private Aluno aluno;
 
     @Column(name = "descricao")

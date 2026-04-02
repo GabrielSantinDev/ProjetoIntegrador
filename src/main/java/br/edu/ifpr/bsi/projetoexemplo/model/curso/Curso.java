@@ -4,6 +4,7 @@ import br.edu.ifpr.bsi.projetoexemplo.model.GenericModel;
 import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.Avaliacao;
 import br.edu.ifpr.bsi.projetoexemplo.model.instrutor.Instrutor;
 import br.edu.ifpr.bsi.projetoexemplo.model.matricula.Matricula;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +23,8 @@ public class Curso extends GenericModel {
     private Instrutor instrutor;
 
     @OneToMany(mappedBy = "curso")
-    private List<Matricula> matriculas = new ArrayList<>();;
+    @JsonIgnore
+    private List<Matricula> matriculas = new ArrayList<>();
 
     @Column(name = "titulo")
     private String titulo;
@@ -40,6 +42,6 @@ public class Curso extends GenericModel {
     private String descricao;
 
     @OneToMany(mappedBy = "curso")
-    private List<Avaliacao> avaliacoes = new ArrayList<>();;
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
 
 }
