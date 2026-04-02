@@ -1,5 +1,12 @@
 # Projeto Integrador - Programação de Software e Aplicativos I
 
+![Java](https://img.shields.io/badge/Java-17-blue)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-Framework-brightgreen)
+![JPA](https://img.shields.io/badge/JPA-Hibernate-orange)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue)
+![JUnit](https://img.shields.io/badge/JUnit-Testes-success)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
 Projeto desenvolvido para as disciplinas de **Análise e Projeto de Sistemas** e **Programação de Software e Aplicativos I**, com o objetivo de aplicar conceitos de **modelagem de sistemas**, **desenvolvimento back-end com Spring Boot**, **persistência de dados com JPA** e **testes automatizados**.
 
 O sistema foi desenvolvido utilizando **Java**, **Spring Boot**, **JPA/Hibernate**, **Supabase (PostgreSQL)** e **JUnit**, seguindo a estrutura de camadas trabalhada em aula.
@@ -33,10 +40,6 @@ Este projeto tem como finalidade desenvolver a base estrutural de uma aplicaçã
 - **Postman**
 
 ---
-
-## 📂 Estrutura do Projeto
-
-O projeto foi organizado seguindo uma estrutura em camadas, facilitando a separação de responsabilidades e a manutenção do código.
 
 ## 📂 Estrutura do Projeto
 
