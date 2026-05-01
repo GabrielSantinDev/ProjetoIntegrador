@@ -1,6 +1,10 @@
 package br.edu.ifpr.bsi.projetoexemplo.services;
 
+import br.edu.ifpr.bsi.projetoexemplo.mappers.AlunoMapper;
 import br.edu.ifpr.bsi.projetoexemplo.model.aluno.Aluno;
+import br.edu.ifpr.bsi.projetoexemplo.model.aluno.AlunoDetailDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.aluno.AlunoRequestDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.aluno.AlunoSummaryDTO;
 import br.edu.ifpr.bsi.projetoexemplo.repositories.AlunoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,40 +20,43 @@ public class AlunoService {
     @Autowired
     private AlunoRepository alunoRepository;
 
-    public List<Aluno> listar() {
-        return this.alunoRepository.findAll();
+    @Autowired
+    private AlunoMapper alunoMapper;
+
+    public List<AlunoSummaryDTO> listar() {
+        return alunoRepository.findAll()
+                .stream()
+                .map(alunoMapper::toDto2)
+                .toList();
     }
 
-    public Aluno salvar(Aluno aluno) {
-        if (aluno.getMatriculas() != null && !aluno.getMatriculas().isEmpty()) {
-            aluno.getMatriculas().forEach(matricula-> matricula.setAluno(aluno));
-        }
-
-        if (aluno.getAvaliacoes() != null && !aluno.getAvaliacoes().isEmpty()) {
-            aluno.getAvaliacoes().forEach(av-> av.setAluno(aluno));
-        }
-
-        return this.alunoRepository.save(aluno);
+    public AlunoDetailDTO salvar(AlunoRequestDTO dto) {
+        Aluno aluno = alunoMapper.toEntity(dto);
+        return alunoMapper.toDto1(alunoRepository.save(aluno));
     }
 
-    public Aluno atualizar(Long codigo, Aluno aluno){
-        this.alunoRepository.findById(codigo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
-        aluno.setCodigo(codigo);
+    public AlunoDetailDTO atualizar(Long codigo, AlunoRequestDTO dto) {
+        Aluno aluno = alunoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (aluno.getMatriculas() != null && !aluno.getMatriculas().isEmpty()) {
-            aluno.getMatriculas().forEach(matricula-> matricula.setAluno(aluno));
-        }
+        alunoMapper.partialUpdate(dto, aluno);
 
-        if (aluno.getAvaliacoes() != null && !aluno.getAvaliacoes().isEmpty()) {
-            aluno.getAvaliacoes().forEach(av-> av.setAluno(aluno));
-        }
-        return this.alunoRepository.save(aluno);
+        return alunoMapper.toDto1(alunoRepository.save(aluno));
     }
 
     @Transactional
-    public void excluir(Long codigo){
-        this.alunoRepository.findById(codigo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
-        this.alunoRepository.deleteById(codigo);
+    public void excluir(Long codigo) {
+        alunoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        alunoRepository.deleteById(codigo);
+    }
+
+    public AlunoDetailDTO buscarPorId(Long codigo) {
+        Aluno aluno = alunoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
+
+        return alunoMapper.toDto1(aluno);
     }
 
 }

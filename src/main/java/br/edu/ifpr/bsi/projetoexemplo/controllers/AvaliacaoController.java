@@ -1,6 +1,8 @@
 package br.edu.ifpr.bsi.projetoexemplo.controllers;
 
 import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.Avaliacao;
+import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.AvaliacaoRequestDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.AvaliacaoResponseDTO;
 import br.edu.ifpr.bsi.projetoexemplo.services.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,18 +19,20 @@ public class AvaliacaoController {
     private AvaliacaoService avaliacaoService;
 
     @GetMapping
-    public ResponseEntity<List<Avaliacao>> listar() {
+    public ResponseEntity<List<AvaliacaoResponseDTO>> listar() {
         return ResponseEntity.ok(avaliacaoService.listar());
     }
 
     @PostMapping
-    public ResponseEntity<Avaliacao> criar(@RequestBody Avaliacao avaliacao) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(avaliacaoService.salvar(avaliacao));
+    public ResponseEntity<AvaliacaoResponseDTO> criar(@RequestBody AvaliacaoRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(avaliacaoService.salvar(dto));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Avaliacao> atualizar(@PathVariable Long codigo, @RequestBody Avaliacao avaliacao) {
-        return ResponseEntity.ok(avaliacaoService.atualizar(codigo, avaliacao));
+    public ResponseEntity<AvaliacaoResponseDTO> atualizar(@PathVariable Long codigo,
+                                                          @RequestBody AvaliacaoRequestDTO dto) {
+        return ResponseEntity.ok(avaliacaoService.atualizar(codigo, dto));
     }
 
     @DeleteMapping("/{codigo}")
@@ -37,4 +41,9 @@ public class AvaliacaoController {
         avaliacaoService.excluir(codigo);
     }
 
+
+    @GetMapping("/{codigo}")
+    public ResponseEntity<AvaliacaoResponseDTO> buscarPorId(@PathVariable Long codigo) {
+        return ResponseEntity.ok(avaliacaoService.buscarPorId(codigo));
+    }
 }
