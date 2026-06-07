@@ -20,4 +20,5 @@ public class CursoResponseDTO implements Serializable {
     Double preco;
     String descricao;
     List<Long> avaliacaoCodigos;
+    Boolean publicado;
 }

@@ -15,4 +15,5 @@ public class CursoRequestDTO implements Serializable {
     Double horasDuracao;
     Double preco;
     String descricao;
+    Boolean publicado;
 }
