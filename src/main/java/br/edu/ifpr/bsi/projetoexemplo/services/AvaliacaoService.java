@@ -1,6 +1,9 @@
 package br.edu.ifpr.bsi.projetoexemplo.services;
 
+import br.edu.ifpr.bsi.projetoexemplo.mappers.AvaliacaoMapper;
 import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.Avaliacao;
+import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.AvaliacaoRequestDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.avaliacao.AvaliacaoResponseDTO;
 import br.edu.ifpr.bsi.projetoexemplo.repositories.AvaliacaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +19,42 @@ public class AvaliacaoService {
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
 
-    public List<Avaliacao> listar() {
-        return this.avaliacaoRepository.findAll();
+    @Autowired
+    private AvaliacaoMapper avaliacaoMapper;
+
+    public List<AvaliacaoResponseDTO> listar() {
+        return avaliacaoRepository.findAll()
+                .stream()
+                .map(avaliacaoMapper::toDto)
+                .toList();
     }
 
-    public Avaliacao salvar(Avaliacao avaliacao) {
-
-        return this.avaliacaoRepository.save(avaliacao);
+    public AvaliacaoResponseDTO salvar(AvaliacaoRequestDTO dto) {
+        Avaliacao avaliacao = avaliacaoMapper.toEntity(dto);
+        return avaliacaoMapper.toDto(avaliacaoRepository.save(avaliacao));
     }
 
-    public Avaliacao atualizar(Long codigo, Avaliacao avaliacao){
-        this.avaliacaoRepository.findById(codigo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Avaliacao não encontrado"));
-        avaliacao.setCodigo(codigo);
+    public AvaliacaoResponseDTO atualizar(Long codigo, AvaliacaoRequestDTO dto) {
+        Avaliacao avaliacao = avaliacaoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return this.avaliacaoRepository.save(avaliacao);
+        avaliacaoMapper.partialUpdate(dto, avaliacao);
+
+        return avaliacaoMapper.toDto(avaliacaoRepository.save(avaliacao));
     }
 
     @Transactional
-    public void excluir(Long codigo){
-        this.avaliacaoRepository.findById(codigo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Avaliacao não encontrado"));
-        this.avaliacaoRepository.deleteById(codigo);
+    public void excluir(Long codigo) {
+        avaliacaoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        avaliacaoRepository.deleteById(codigo);
     }
-    
+
+    public AvaliacaoResponseDTO buscarPorId(Long codigo) {
+        Avaliacao avaliacao = avaliacaoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Avaliação não encontrada"));
+
+        return avaliacaoMapper.toDto(avaliacao);
+    }
 }

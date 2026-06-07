@@ -1,6 +1,8 @@
 package br.edu.ifpr.bsi.projetoexemplo.controllers;
 
 import br.edu.ifpr.bsi.projetoexemplo.model.matricula.Matricula;
+import br.edu.ifpr.bsi.projetoexemplo.model.matricula.MatriculaRequestDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.matricula.MatriculaResponseDTO;
 import br.edu.ifpr.bsi.projetoexemplo.services.MatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,24 +20,31 @@ public class MatriculaController {
     private MatriculaService matriculaService;
 
     @GetMapping
-    public ResponseEntity<List<Matricula>> listar() {
+    public ResponseEntity<List<MatriculaResponseDTO>> listar() {
         return ResponseEntity.ok(matriculaService.listar());
     }
 
     @PostMapping
-    public ResponseEntity<Matricula> criar(@RequestBody Matricula matricula) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(matriculaService.salvar(matricula));
+    public ResponseEntity<MatriculaResponseDTO> criar(@RequestBody MatriculaRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(matriculaService.salvar(dto));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Matricula> atualizar(@PathVariable Long codigo, @RequestBody Matricula matricula) {
-        return ResponseEntity.ok(matriculaService.atualizar(codigo, matricula));
+    public ResponseEntity<MatriculaResponseDTO> atualizar(@PathVariable Long codigo,
+                                                          @RequestBody MatriculaRequestDTO dto) {
+        return ResponseEntity.ok(matriculaService.atualizar(codigo, dto));
     }
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long codigo) {
         matriculaService.excluir(codigo);
+    }
+
+    @GetMapping("/{codigo}")
+    public ResponseEntity<MatriculaResponseDTO> buscarPorId(@PathVariable Long codigo) {
+        return ResponseEntity.ok(matriculaService.buscarPorId(codigo));
     }
 
 }

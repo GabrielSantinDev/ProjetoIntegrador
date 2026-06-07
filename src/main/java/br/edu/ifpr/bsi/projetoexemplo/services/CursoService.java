@@ -1,6 +1,9 @@
 package br.edu.ifpr.bsi.projetoexemplo.services;
 
+import br.edu.ifpr.bsi.projetoexemplo.mappers.CursoMapper;
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.Curso;
+import br.edu.ifpr.bsi.projetoexemplo.model.curso.CursoRequestDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.curso.CursoResponseDTO;
 import br.edu.ifpr.bsi.projetoexemplo.model.instrutor.Instrutor;
 import br.edu.ifpr.bsi.projetoexemplo.repositories.CursoRepository;
 import br.edu.ifpr.bsi.projetoexemplo.repositories.InstrutorRepository;
@@ -21,57 +24,55 @@ public class CursoService {
     @Autowired
     private InstrutorRepository instrutorRepository;
 
-    public List<Curso> listar() {
-        return this.cursoRepository.findAll();
+    @Autowired
+    private CursoMapper cursoMapper;
+
+    public List<CursoResponseDTO> listar() {
+        return cursoRepository.findAll()
+                .stream()
+                .map(cursoMapper::toDto)
+                .toList();
     }
 
-    public Curso salvar(Curso curso) {
+    public CursoResponseDTO salvar(CursoRequestDTO dto) {
+        Curso curso = cursoMapper.toEntity(dto);
 
-        System.out.println("Objeto Instrutor: " + curso.getInstrutor());
+        Instrutor instrutor = instrutorRepository.findById(dto.getInstrutorCodigo())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (curso.getInstrutor() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Objeto instrutor não chegou no JSON");
-        }
-
-        if (curso.getInstrutor().getCodigo() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O código do instrutor está vindo nulo");
-        }
-
-        Instrutor instrutor = instrutorRepository.findById(curso.getInstrutor().getCodigo()).get();
-
-        // 2. Associa o instrutor real (encontrado no banco) ao curso
         curso.setInstrutor(instrutor);
 
-        if (curso.getMatriculas() != null && !curso.getMatriculas().isEmpty()) {
-            curso.getMatriculas().forEach(matricula-> matricula.setCurso(curso));
-        }
-
-        if (curso.getAvaliacoes() != null && !curso.getAvaliacoes().isEmpty()) {
-            curso.getAvaliacoes().forEach(av-> av.setCurso(curso));
-        }
-
-        return this.cursoRepository.save(curso);
+        return cursoMapper.toDto(cursoRepository.save(curso));
     }
 
-    public Curso atualizar(Long codigo, Curso curso){
-        this.cursoRepository.findById(codigo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
-        curso.setCodigo(codigo);
+    public CursoResponseDTO atualizar(Long codigo, CursoRequestDTO dto) {
+        Curso curso = cursoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (curso.getMatriculas() != null && !curso.getMatriculas().isEmpty()) {
-            curso.getMatriculas().forEach(matricula-> matricula.setCurso(curso));
+        cursoMapper.partialUpdate(dto, curso);
+
+        if (dto.getInstrutorCodigo() != null) {
+            Instrutor instrutor = instrutorRepository.findById(dto.getInstrutorCodigo())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+            curso.setInstrutor(instrutor);
         }
 
-        if (curso.getAvaliacoes() != null && !curso.getAvaliacoes().isEmpty()) {
-            curso.getAvaliacoes().forEach(av-> av.setCurso(curso));
-        }
-        return this.cursoRepository.save(curso);
+        return cursoMapper.toDto(cursoRepository.save(curso));
     }
 
     @Transactional
-    public void excluir(Long codigo){
-        this.cursoRepository.findById(codigo).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
-        this.cursoRepository.deleteById(codigo);
+    public void excluir(Long codigo) {
+        cursoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        cursoRepository.deleteById(codigo);
     }
 
-    
+    public CursoResponseDTO buscarPorId(Long codigo) {
+        Curso curso = cursoRepository.findById(codigo)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
+
+        return cursoMapper.toDto(curso);
+    }
 }

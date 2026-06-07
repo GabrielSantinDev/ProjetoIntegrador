@@ -1,6 +1,8 @@
 package br.edu.ifpr.bsi.projetoexemplo.controllers;
 
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.Curso;
+import br.edu.ifpr.bsi.projetoexemplo.model.curso.CursoRequestDTO;
+import br.edu.ifpr.bsi.projetoexemplo.model.curso.CursoResponseDTO;
 import br.edu.ifpr.bsi.projetoexemplo.services.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +20,20 @@ public class CursoController {
     private CursoService cursoService;
 
     @GetMapping
-    public ResponseEntity<List<Curso>> listar() {
+    public ResponseEntity<List<CursoResponseDTO>> listar() {
         return ResponseEntity.ok(cursoService.listar());
     }
 
     @PostMapping
-    public ResponseEntity<Curso> criar(@RequestBody Curso curso) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(cursoService.salvar(curso));
+    public ResponseEntity<CursoResponseDTO> criar(@RequestBody CursoRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(cursoService.salvar(dto));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Curso> atualizar(@PathVariable Long codigo, @RequestBody Curso curso) {
-        return ResponseEntity.ok(cursoService.atualizar(codigo, curso));
+    public ResponseEntity<CursoResponseDTO> atualizar(@PathVariable Long codigo,
+                                                      @RequestBody CursoRequestDTO dto) {
+        return ResponseEntity.ok(cursoService.atualizar(codigo, dto));
     }
 
     @DeleteMapping("/{codigo}")
@@ -38,4 +42,8 @@ public class CursoController {
         cursoService.excluir(codigo);
     }
 
+    @GetMapping("/{codigo}")
+    public ResponseEntity<CursoResponseDTO> buscarPorId(@PathVariable Long codigo) {
+        return ResponseEntity.ok(cursoService.buscarPorId(codigo));
+    }
 }
