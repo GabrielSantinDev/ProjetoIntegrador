@@ -1,6 +1,7 @@
 package br.edu.ifpr.bsi.projetoexemplo.services;
 
 import br.edu.ifpr.bsi.projetoexemplo.mappers.CursoMapper;
+import br.edu.ifpr.bsi.projetoexemplo.mappers.InstrutorMapper;
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.Curso;
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.CursoRequestDTO;
 import br.edu.ifpr.bsi.projetoexemplo.model.curso.CursoResponseDTO;
@@ -11,9 +12,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CursoService {
@@ -26,6 +29,9 @@ public class CursoService {
 
     @Autowired
     private CursoMapper cursoMapper;
+
+    @Autowired
+    private StorageService storageService;
 
     public List<CursoResponseDTO> listar() {
         return cursoRepository.findAll()
@@ -72,6 +78,43 @@ public class CursoService {
     public CursoResponseDTO buscarPorId(Long codigo) {
         Curso curso = cursoRepository.findById(codigo)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
+
+        return cursoMapper.toDto(curso);
+    }
+
+    public List<CursoResponseDTO> listarPorInstrutor(Long instrutorId) {
+
+        Instrutor instrutor = instrutorRepository.findById(instrutorId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return cursoRepository.findByInstrutor(instrutor)
+                .stream()
+                .map(cursoMapper::toDto)
+                .toList();
+    }
+
+    public CursoResponseDTO atualizarImagem(Long codigo, MultipartFile imagem) {
+
+        Curso curso = cursoRepository.findById(codigo)
+                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+
+        // se ja existir imagem, remove antiga
+        if (curso.getImagemPublicId() != null) {
+            storageService.delete(curso.getImagemPublicId());
+        }
+
+        //upload imagem
+        StorageService.UploadResponse upload = storageService.upload(
+                "cursos",
+                imagem,
+                UUID.randomUUID().toString()
+        );
+
+        // salva novos dados
+        curso.setUrlImagem(upload.url());
+        curso.setImagemPublicId(upload.publicId());
+
+        cursoRepository.save(curso);
 
         return cursoMapper.toDto(curso);
     }

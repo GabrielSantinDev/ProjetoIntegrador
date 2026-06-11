@@ -44,7 +44,14 @@ public class Curso extends GenericModel {
     @Column(name = "publicado")
     private boolean publicado;
 
+    @Column(name="url_imagem")
+    private String urlImagem;
+
+    @Column(name="imagem_public_id")
+    private String imagemPublicId;
+
     @OneToMany(mappedBy = "curso")
     private List<Avaliacao> avaliacoes = new ArrayList<>();
+
 
 }

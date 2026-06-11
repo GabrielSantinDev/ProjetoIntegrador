@@ -21,4 +21,6 @@ public class CursoResponseDTO implements Serializable {
     String descricao;
     List<Long> avaliacaoCodigos;
     Boolean publicado;
+    String urlImagem;
+    String imagemPublicId;
 }

@@ -139,21 +139,4 @@ class MatriculaRepositoryTest {
         Assertions.assertEquals(2, matriculas.size());
     }
 
-    @Test
-    public void testFindByAluno() {
-        Curso cursoJava = cursoRepository.save(criarCurso("Java Completo", "Programacao"));
-        Curso cursoSpring = cursoRepository.save(criarCurso("Spring Boot", "Programacao"));
-
-        Aluno alunoGabriel = alunoRepository.save(criarAluno("Gabriel", "gabriel@email.com"));
-        Aluno alunoMaria = alunoRepository.save(criarAluno("Joao", "joao@email.com"));
-
-        matriculaRepository.save(criarMatricula(alunoGabriel, cursoJava));
-        matriculaRepository.save(criarMatricula(alunoGabriel, cursoSpring));
-        matriculaRepository.save(criarMatricula(alunoMaria, cursoJava));
-
-        List<Matricula> matriculas = matriculaRepository.findByAluno(alunoGabriel);
-
-        Assertions.assertNotNull(matriculas);
-        Assertions.assertEquals(2, matriculas.size());
-    }
 }

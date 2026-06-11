@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -45,5 +46,20 @@ public class CursoController {
     @GetMapping("/{codigo}")
     public ResponseEntity<CursoResponseDTO> buscarPorId(@PathVariable Long codigo) {
         return ResponseEntity.ok(cursoService.buscarPorId(codigo));
+    }
+
+    @GetMapping("/instrutor/{id}")
+    public List<CursoResponseDTO> listarPorInstrutor(@PathVariable Long id) {
+        return cursoService.listarPorInstrutor(id);
+    }
+
+    @PutMapping(value = "/{codigo}/imagem", consumes = "multipart/form-data")
+    public ResponseEntity<CursoResponseDTO> atualizarImagem(
+            @PathVariable Long codigo,
+            @RequestParam("imagem") MultipartFile imagem
+    ) {
+        return ResponseEntity.ok(
+                cursoService.atualizarImagem(codigo, imagem)
+        );
     }
 }

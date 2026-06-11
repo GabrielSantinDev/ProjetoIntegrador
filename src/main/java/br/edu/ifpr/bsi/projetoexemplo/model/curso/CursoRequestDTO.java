@@ -16,4 +16,5 @@ public class CursoRequestDTO implements Serializable {
     Double preco;
     String descricao;
     Boolean publicado;
+    String urlImagem;
 }

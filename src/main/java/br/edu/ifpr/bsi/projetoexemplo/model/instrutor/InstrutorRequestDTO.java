@@ -20,4 +20,5 @@ public class InstrutorRequestDTO implements Serializable {
     String descricao;
     Double avaliacao;
     Double ganhosTotais;
+    String username;
 }

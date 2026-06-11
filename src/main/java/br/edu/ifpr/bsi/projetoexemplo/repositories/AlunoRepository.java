@@ -16,4 +16,6 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
     @Query(value="SELECT a FROM Aluno a WHERE a.nome LIKE %:nome%")
     List<Aluno> getAllByNomeLike(@Param("nome") String nome);
+
+    Aluno findByUsername(String username);
 }

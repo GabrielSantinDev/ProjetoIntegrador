@@ -1,5 +1,6 @@
 package br.edu.ifpr.bsi.projetoexemplo.services;
 
+import br.edu.ifpr.bsi.projetoexemplo.enums.Role;
 import br.edu.ifpr.bsi.projetoexemplo.mappers.InstrutorMapper;
 import br.edu.ifpr.bsi.projetoexemplo.model.instrutor.Instrutor;
 import br.edu.ifpr.bsi.projetoexemplo.model.instrutor.InstrutorDetailDTO;
@@ -9,6 +10,7 @@ import br.edu.ifpr.bsi.projetoexemplo.repositories.InstrutorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,6 +25,9 @@ public class InstrutorService {
     @Autowired
     private InstrutorMapper instrutorMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<InstrutorSummaryDTO> listar() {
         return instrutorRepository.findAll()
                 .stream()
@@ -32,6 +37,10 @@ public class InstrutorService {
 
     public InstrutorDetailDTO salvar(InstrutorRequestDTO dto) {
         Instrutor instrutor = instrutorMapper.toEntity(dto);
+
+        instrutor.setRole(Role.INSTRUTOR);
+        instrutor.setSenha(this.passwordEncoder.encode(instrutor.getSenha()));
+
         return instrutorMapper.toDto(instrutorRepository.save(instrutor));
     }
 

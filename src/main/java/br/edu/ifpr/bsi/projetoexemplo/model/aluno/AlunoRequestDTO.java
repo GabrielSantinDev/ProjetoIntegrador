@@ -17,4 +17,5 @@ public class AlunoRequestDTO implements Serializable {
     LocalDate dataNascimento;
     LocalDateTime dataCadastro;
     String nivelAprendizado;
+    String username;
 }

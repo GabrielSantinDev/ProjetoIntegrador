@@ -17,4 +17,5 @@ public interface InstrutorRepository extends JpaRepository<Instrutor, Long> {
     @Query(value="SELECT i FROM Instrutor i WHERE i.nome LIKE %:nome%")
     List<Instrutor> getAllByNomeLike(@Param("nome") String nome);
 
+    Instrutor findByUsername(String username);
 }

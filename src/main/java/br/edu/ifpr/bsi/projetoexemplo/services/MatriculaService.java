@@ -77,4 +77,15 @@ public class MatriculaService {
 
         return matriculaMapper.toDto(matricula);
     }
+
+
+    public List<MatriculaResponseDTO> listarPorAlunoCodigo(Long alunoCodigo) {
+        return matriculaRepository.findByAlunoCodigo(alunoCodigo)
+                .stream()
+                .map(matriculaMapper::toDto)
+                .toList();
+    }
+
+
+
 }

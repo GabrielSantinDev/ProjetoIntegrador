@@ -1,5 +1,6 @@
 package br.edu.ifpr.bsi.projetoexemplo.services;
 
+import br.edu.ifpr.bsi.projetoexemplo.enums.Role;
 import br.edu.ifpr.bsi.projetoexemplo.mappers.AlunoMapper;
 import br.edu.ifpr.bsi.projetoexemplo.model.aluno.Aluno;
 import br.edu.ifpr.bsi.projetoexemplo.model.aluno.AlunoDetailDTO;
@@ -9,6 +10,7 @@ import br.edu.ifpr.bsi.projetoexemplo.repositories.AlunoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,6 +25,9 @@ public class AlunoService {
     @Autowired
     private AlunoMapper alunoMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<AlunoSummaryDTO> listar() {
         return alunoRepository.findAll()
                 .stream()
@@ -32,6 +37,10 @@ public class AlunoService {
 
     public AlunoDetailDTO salvar(AlunoRequestDTO dto) {
         Aluno aluno = alunoMapper.toEntity(dto);
+
+        aluno.setRole(Role.ALUNO);
+        aluno.setSenha(this.passwordEncoder.encode(aluno.getSenha()));
+
         return alunoMapper.toDto1(alunoRepository.save(aluno));
     }
 

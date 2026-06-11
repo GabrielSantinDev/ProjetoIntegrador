@@ -1,5 +1,6 @@
 package br.edu.ifpr.bsi.projetoexemplo.controllers;
 
+import br.edu.ifpr.bsi.projetoexemplo.model.aluno.Aluno;
 import br.edu.ifpr.bsi.projetoexemplo.model.matricula.Matricula;
 import br.edu.ifpr.bsi.projetoexemplo.model.matricula.MatriculaRequestDTO;
 import br.edu.ifpr.bsi.projetoexemplo.model.matricula.MatriculaResponseDTO;
@@ -46,5 +47,12 @@ public class MatriculaController {
     public ResponseEntity<MatriculaResponseDTO> buscarPorId(@PathVariable Long codigo) {
         return ResponseEntity.ok(matriculaService.buscarPorId(codigo));
     }
+
+    @GetMapping("/aluno/{alunoId}")
+    public ResponseEntity<List<MatriculaResponseDTO>> listarPorAluno(@PathVariable Long alunoId) {
+        return ResponseEntity.ok(matriculaService.listarPorAlunoCodigo(alunoId));
+    }
+
+
 
 }
