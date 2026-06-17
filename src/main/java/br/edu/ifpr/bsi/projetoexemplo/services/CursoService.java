@@ -105,7 +105,7 @@ public class CursoService {
 
         //upload imagem
         StorageService.UploadResponse upload = storageService.upload(
-                "cursos",
+                "react/cursos",
                 imagem,
                 UUID.randomUUID().toString()
         );
