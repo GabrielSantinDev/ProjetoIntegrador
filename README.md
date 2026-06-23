@@ -26,6 +26,8 @@ O **SkillUp** é uma plataforma de cursos online onde **instrutores** publicam e
 
 Esta API segue arquitetura em camadas com **Spring Boot + JPA/Hibernate**, autenticação stateless via **JWT**, upload de imagens com **Cloudinary** e banco de dados **PostgreSQL** hospedado no **Supabase**.
 
+Vídeo de demonstração: **https://drive.google.com/file/d/1l83lf0VSuJMqYEMVThDhYMX1AdCPQKej/view?usp=sharing**
+
 ---
 
 ## 🎯 Funcionalidades
