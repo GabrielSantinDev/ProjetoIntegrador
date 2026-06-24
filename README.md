@@ -28,10 +28,11 @@ Esta API segue arquitetura em camadas com **Spring Boot + JPA/Hibernate**, auten
 
 ---
 
-## 🎥 Vídeo de Demonstração
+## 🎥 Vídeos de Demonstração
 
 - 📽️ [Testes e Endpoints](https://drive.google.com/file/d/1TQPtjkXZXsVOOwoXIOITlnEK9VvQyzYs/view?resourcekey)
-
+- 📽️ [Frontend](https://drive.google.com/file/d/1stQfz3xotUg2ilquvHLbQZJLBz6IexrO/view?usp=sharing)
+  
 ---
 
 
