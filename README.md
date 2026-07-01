@@ -36,11 +36,13 @@ Esta API segue arquitetura em camadas com **Spring Boot + JPA/Hibernate**, auten
 
 ---
 
-## 🎥 Imagens/Vídeos de Demonstração
+## 🎥 Demonstração
 
 - 📽️ [Testes e Endpoints](https://drive.google.com/file/d/1TQPtjkXZXsVOOwoXIOITlnEK9VvQyzYs/view?resourcekey)
 - 📽️ [Frontend](https://drive.google.com/file/d/1stQfz3xotUg2ilquvHLbQZJLBz6IexrO/view?usp=sharing)
-  
+
+> 🔗 Esta API está hospedada e em produção, sendo consumida pelo [frontend em React](https://github.com/GabrielSantinDev/projeto-integrador-react) - [veja a aplicação funcionando aqui](https://skill-up-do98.onrender.com/).
+
 ---
 
 
