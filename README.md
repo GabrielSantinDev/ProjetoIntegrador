@@ -12,14 +12,6 @@
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat-square&logo=cloudinary&logoColor=white)
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=flat-square)
 
-<div align="center">
-
-### 🔗 [Ver aplicação online](https://skill-up-do98.onrender.com/)
-
-> ⚠️ Hospedado no plano gratuito do Render - o primeiro acesso pode levar de 30 a 60 segundos para carregar.
-
-</div>
-
 <br/>
 
 **API REST de uma plataforma de cursos online desenvolvida para as disciplinas de Análise e Projeto de Sistemas e Programação de Software e Aplicativos I — IFPR Sistemas de Informação.**
