@@ -33,7 +33,10 @@ Esta API segue arquitetura em camadas com **Spring Boot + JPA/Hibernate**, auten
 - 📽️ [Testes e Endpoints](https://drive.google.com/file/d/1TQPtjkXZXsVOOwoXIOITlnEK9VvQyzYs/view?resourcekey)
 - 📽️ [Frontend](https://drive.google.com/file/d/1stQfz3xotUg2ilquvHLbQZJLBz6IexrO/view?usp=sharing)
 
-> 🔗 Esta API está hospedada e em produção, sendo consumida pelo [frontend em React](https://github.com/GabrielSantinDev/projeto-integrador-react) - [veja a aplicação funcionando aqui](https://skill-up-do98.onrender.com/).
+> 🔗 [link para acessar a API](https://projetointegrador-ce3g.onrender.com/) 
+> 🔗 Esta API está hospedada e sendo consumida pelo frontend em react - [veja a aplicação funcionando aqui](https://skill-up-do98.onrender.com/).
+
+> ⚠️ Hospedado no plano gratuito do Render - o primeiro acesso de ambos os links podem levar de 30 a 60 segundos para carregar.
 
 ---
 
